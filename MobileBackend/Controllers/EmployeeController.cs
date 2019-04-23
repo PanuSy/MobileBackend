@@ -11,6 +11,7 @@ namespace MobileBackend.Controllers
     {
         public string[] GetAll()
         {
+
             string[] employeeNames = null;
             TimesheetEntities entities = new TimesheetEntities();
             try
