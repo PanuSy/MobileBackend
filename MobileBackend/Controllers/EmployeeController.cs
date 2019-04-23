@@ -9,5 +9,22 @@ namespace MobileBackend.Controllers
 {
     public class EmployeeController : ApiController
     {
+        public string[] GetAll()
+        {
+            string[] employeeNames = null;
+            TimesheetEntities entities = new TimesheetEntities();
+            try
+            {
+                employeeNames = (from e in entities.Employees
+                                 where (e.Active == true)
+                                 select e.FirstName + " " +
+                                     e.LastName).ToArray();
+            }
+            finally
+            {
+                entities.Dispose;
+            }
+            return employeeNames;
+        }
     }
 }
