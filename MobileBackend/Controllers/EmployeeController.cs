@@ -13,17 +13,17 @@ namespace MobileBackend.Controllers
         {
 
             string[] employeeNames = null;
-            TimesheetEntities entities = new TimesheetEntities();
+            PanconDatabaseEntities entities = new PanconDatabaseEntities();
             try
             {
                 employeeNames = (from e in entities.Employees
                                  where (e.Active == true)
-                                 select e.FirstName + " " +
-                                     e.LastName).ToArray();
+                                 select e.Firstname + " " +
+                                     e.Lastname).ToArray();
             }
             finally
             {
-                entities.Dispose;
+                entities.Dispose();
             }
             return employeeNames;
         }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f3f315bbe1e34271aabbb38774b94c7b" Name="Diagram1">
+        <EntityTypeShape EntityType="PanconDatabaseModel.Contractors" Width="1.5" PointX="3" PointY="14" />
+        <EntityTypeShape EntityType="PanconDatabaseModel.Customers" Width="1.5" PointX="0.75" PointY="3.5" />
+        <EntityTypeShape EntityType="PanconDatabaseModel.Employees" Width="1.5" PointX="3" PointY="3.75" />
+        <EntityTypeShape EntityType="PanconDatabaseModel.Timesheets" Width="1.5" PointX="5.25" PointY="6" />
+        <EntityTypeShape EntityType="PanconDatabaseModel.WorkAssignments" Width="1.5" PointX="3" PointY="8.875" />
+        <AssociationConnector Association="PanconDatabaseModel.FK_Employee_Contractors" />
+        <AssociationConnector Association="PanconDatabaseModel.FK_Timesheets_Contractors" />
+        <AssociationConnector Association="PanconDatabaseModel.FK_Timesheets_Customers" />
+        <AssociationConnector Association="PanconDatabaseModel.FK_WorkAssignments_Customers" />
+        <AssociationConnector Association="PanconDatabaseModel.FK_Timesheets_Employees" />
+        <AssociationConnector Association="PanconDatabaseModel.FK_Timesheets_WorkAssignments" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
