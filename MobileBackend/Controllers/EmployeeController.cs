@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using MobileBackend.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,7 +15,7 @@ namespace MobileBackend.Controllers
         {
 
             string[] employeeNames = null;
-            PanconDatabaseEntities entities = new PanconDatabaseEntities();
+            panconDatabaseEntities entities = new panconDatabaseEntities(); 
             try
             {
                 employeeNames = (from e in entities.Employees

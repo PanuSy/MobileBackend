@@ -1,0 +1,146 @@
+﻿@model IEnumerable<MobileBackend.DataAccess.Employees>
+@{
+    ViewBag.Title = "Employees";
+}
+
+@section scripts {
+
+
+
+    <script type="text/javascript">
+
+        function updateEmployeeList() {
+            $.getJSON("/test/getlist", null, function (json) {
+                var employee = JSON.parse(json);
+
+                var html = "";
+                for (var index = 0; index < employee.length; index++) {
+                    html += "<tr>" +
+                        "<td><a href='#'><span class='glyphicon glyphicon-pencil' data-id='" + employee[index].EmployeeId + "'></span></a></td>" +
+                        "<td>" + employee[index].EmployeeId + "</td>" +
+                        "<td>" + employee[index].Firstname + "</td>" +
+                        "<td>" + employee[index].Lastname + "</td>" +
+                        "<td><a href='#'><span class='glyphicon glyphicon-trash' data-id='" + employee[index].EmployeeId + "'></span></a></td>" +
+                        "</tr>\r\n";
+                }
+
+                $("#employeeList tbody").html(html);
+                $(".glyphicon-pencil").click(function () {
+                    var EmployeeId = $(this).data("id");
+                    var EmployeeId = $(this).parent().parent().next().text();
+
+                    $.getJSON("/test/getsingle/" + EmployeeId, null, function (json2) {
+                        var employee = JSON.parse(json2);
+
+                        $("#employeeModal_EmployeeId").val(employee.EmployeeId);
+                        $("#employeeModal_Firstname").val(employee.Firstname);
+                        $("#employeeModal_Lastname").val(employee.Lastname);
+
+                        $("#employeeModalTitle").text("Edit employee");
+                        $("#employeeModalDialog").modal("show");
+                    });
+                });
+
+                $(".glyphicon-trash").click(function () {
+                   
+                    var EmployeeId = $(this).parent().parent().prev().prev().text();
+                    var EmployeeId = $(this).data("id");
+                    var ok = confirm("Confirm deleting employee " + EmployeeId + "?");
+
+                    if (ok == true) {
+                        $.getJSON("/test/delete/" + EmployeeId, null, function (status) {
+                            if (status == true) {
+                                alert("Employee deleted!");
+                                updateEmployeeList();
+                            }
+                            else {
+                                alert("Deleting failed, try again!");
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        $(function () {
+            updateEmployeeList();
+
+            $("#addNewEmployeeButton").click(function () {
+
+                $("#emplyeeModal_EmployeeId").val("");
+                $("#emplyeeModal_Firstname").val("");
+                $("#emplyeeModal_Lastname").val("");
+
+                $("#employeeModalTitle").text("Add new employee");
+                $("#employeeModalDialog").modal("show");
+            });
+
+            $("#employeeModalSaveButton").click(function () {
+                var details = {
+                    EmployeeId: $("#employeeModal_EmployeeId").val(),
+                    Firstname: $("#employeeModal_Firstname").val(),
+                    Lastname: $("#employeeModal_Lastname").val(),
+                };
+
+                $.post("/test/update/", details, function (status) {
+                    if (status == true) {
+                        alert("Employee updated succesfully!");
+                        $("#employeeModalDialog").modal("hide");
+                        updateEmployeeList();
+                    }
+                    else {
+                        alert("Update failed, try again!");
+                    }
+                });
+            });
+        });
+    </script>
+
+}
+<h2>Employees</h2>
+
+<button class="btn btn-primary" id="addNewEmployeeButton">Add</button>
+
+<table class="table table-striped" id="employeeList">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Employee id</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="employeeModalDialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><span id="employeeModalTitle">Edit</span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">Employee id</div>
+                    <div class="col-md-6"><input class="form-control" id="employeeModal_EmployeeId" type="text" readonly></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">Firstname</div>
+                    <div class="col-md-6"><input class="form-control" id="employeeModal_Firstname" type="text" maxlength="50"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">Lastname</div>
+                    <div class="col-md-6"><input class="form-control" id="employeeModal_Lastname" type="text" maxlength="50"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="employeeModalSaveButton">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
