@@ -47,16 +47,40 @@ namespace MobileBackend.Controllers
                 {
                     return false;
                 }
-                int assignmentId = assignment.WorkAssignmentId;
-
-                Timesheets NewEntry = new Timesheets()
+                if (input.Operation == "Start")
                 {
-                    WorkAssignmentId = assignmentId,
-                    StartTime = DateTime.Now,
-                    Active = true,
-                    CreatedAt = DateTime.Now
-                };
-                entities.Timesheets.Add(NewEntry);
+                    int assignmentId = assignment.WorkAssignmentId;
+
+                    Timesheets NewEntry = new Timesheets()
+                    {
+                        WorkAssignmentId = assignmentId,
+                        StartTime = DateTime.Now,
+                        WorkComplete = false,
+                        Active = true,
+                        CreatedAt = DateTime.Now
+                    };
+                    entities.Timesheets.Add(NewEntry);
+                }
+                else if (input.Operation == "Stop")
+                {
+                    int assignmentId = assignment.WorkAssignmentId;
+
+                    Timesheets existing = (from ts in entities.Timesheets
+                                           where (ts.WorkAssignmentId == assignmentId) &&
+                                           (ts.Active == true)
+                                           select ts).FirstOrDefault();
+
+                    if (existing != null)
+                    {
+                        existing.StopTime = DateTime.Now;
+                        existing.WorkComplete = true;
+                        existing.LastModified = DateTime.Now;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
                 entities.SaveChanges();
             }
             catch
