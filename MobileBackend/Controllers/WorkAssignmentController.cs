@@ -1,4 +1,5 @@
 ﻿
+using MobileApp.Models;
 using MobileBackend.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,46 @@ namespace MobileBackend.Controllers
                 entities.Dispose();
             }
             return assignmentNames;
+        }
+
+        [HttpPost]
+        public bool PostStatus(WorkAssignmentOperationModel input)
+        {
+            panconDatabaseEntities entities = new panconDatabaseEntities();
+
+            try
+            {
+                WorkAssignments assignment = (from wa in entities.WorkAssignments
+                                   where (wa.Active == true) && 
+                                   (wa.Title == input.AssignmentTitle)
+                                   select wa).FirstOrDefault();
+
+                if (assignment == null)
+                {
+                    return false;
+                }
+                int assignmentId = assignment.WorkAssignmentId;
+
+                Timesheets NewEntry = new Timesheets()
+                {
+                    WorkAssignmentId = assignmentId,
+                    StartTime = DateTime.Now,
+                    Active = true,
+                    CreatedAt = DateTime.Now
+                };
+                entities.Timesheets.Add(NewEntry);
+                entities.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                entities.Dispose();
+            }
+
+            return true;
         }
     }
 }
