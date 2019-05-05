@@ -67,7 +67,8 @@ namespace MobileBackend.Controllers
 
                     Timesheets existing = (from ts in entities.Timesheets
                                            where (ts.WorkAssignmentId == assignmentId) &&
-                                           (ts.Active == true)
+                                           (ts.Active == true) && (ts.WorkComplete == false)
+                                           orderby ts.StartTime descending
                                            select ts).FirstOrDefault();
 
                     if (existing != null)

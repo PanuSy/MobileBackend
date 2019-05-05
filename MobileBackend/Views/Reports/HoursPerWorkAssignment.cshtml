@@ -1,0 +1,91 @@
+﻿@model IEnumerable<MobileBackend.ViewModels.HoursPerWorkAssignmentModel>
+
+@{
+    ViewBag.Title = "HoursPerWorkAssignment";
+}
+@section scripts {
+    <script src="~/Scripts/Chart.js"></script>
+}
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+<h2>HoursPerWorkAssignment</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkAssignmentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkAssignmentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalHours)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkAssignmentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkAssignmentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalHours)
+        </td>
+    </tr>
+}
+
+</table>
+<p>Total entries: @Model.Count().</p>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<a href="~/Reports/HoursPerWorkAssignmentToExcelAsCsv" class="btn btn-default">Export To Excel</a>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<canvas id="myChart" width="400" height="200"></canvas>

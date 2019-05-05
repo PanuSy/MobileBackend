@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="panconDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="panconDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Contractors">
           <Key>
             <PropertyRef Name="ContractorId" />
@@ -62,6 +62,7 @@
           <Property Name="LastModified" Type="datetime" />
           <Property Name="DeletedAt" Type="datetime" />
           <Property Name="Active" Type="bit" />
+          <Property Name="EmployeePicture" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Timesheets">
           <Key>
@@ -202,8 +203,7 @@
             <End Role="WorkAssignments" EntitySet="WorkAssignments" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="panconDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -270,6 +270,7 @@
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Contractors" Relationship="Self.FK_Employee_Contractors" FromRole="Employees" ToRole="Contractors" />
           <NavigationProperty Name="Timesheets" Relationship="Self.FK_Timesheets_Employees" FromRole="Employees" ToRole="Timesheets" />
+          <Property Name="EmployeePicture" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Timesheets">
           <Key>
@@ -469,6 +470,7 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="panconDatabaseModel.Employees">
               <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="EmployeePicture" ColumnName="EmployeePicture" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="ContractorId" ColumnName="ContractorId" />
                 <ScalarProperty Name="Firstname" ColumnName="Firstname" />
