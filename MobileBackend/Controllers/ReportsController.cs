@@ -96,5 +96,37 @@ namespace MobileBackend.Controllers
             byte[] buffer = Encoding.UTF8.GetBytes(csv.ToString());
             return File(buffer, "text/csv", "Työtunnit.csv");
         }
+        public ActionResult GetTimesheetsCount(string onlyComplete)
+        {
+            ReportChartDataViewModel model = new ReportChartDataViewModel();
+            panconDatabaseEntities entities = new panconDatabaseEntities();
+            try
+            {
+                model.Labels = (from wa in entities.WorkAssignments
+                                orderby wa.WorkAssignmentId
+                                select wa.Title).ToArray();
+
+                if (onlyComplete == "1")
+                {
+                    model.Counts = (from ts in entities.Timesheets
+                                    where (ts.WorkComplete == true)
+                                    orderby ts.WorkAssignmentId
+                                    group ts by ts.WorkAssignmentId into grp
+                                    select grp.Count()).ToArray();
+                }
+                else
+                {
+                    model.Counts = (from ts in entities.Timesheets
+                                    orderby ts.WorkAssignmentId
+                                    group ts by ts.WorkAssignmentId into grp
+                                    select grp.Count()).ToArray();
+                }
+            }
+            finally
+            {
+                entities.Dispose();
+            }
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
     }
 }
