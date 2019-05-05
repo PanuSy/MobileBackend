@@ -48,13 +48,29 @@
             options: chartOptions
         });
     }
-    $(function () {
-        initializeGraf();
-        $.get("/reports/GetTimesheetsCount", function (data) {
+
+    function downloadDataFromServer(url) {
+        $.get(url, function (data) {
             myChart.config.data.datasets[0].data = data.Counts;
             myChart.config.data.labels = data.Labels;
             myChart.update();
         });
+    }
+
+    $(function () {
+
+        initializeGraf();
+        downloadDataFromServer("/reports/GetTimesheetsCount");
+
+        $("#showOnlyCompletedRecords").change(function () {
+            var selected = $("#showOnlyCompletedRecords").is(":checked");
+
+            var url = "/reports/GetTimesheetsCount";
+            if (selected) {
+                url += "?onlyComplete=1"
+            }
+            downloadDataFromServer(url);
+        })
     });
 </script>
 
@@ -102,4 +118,5 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
+<input id="showOnlyCompletedRecords" type="checkbox" />Show Only Completed Records
 <canvas id="myChart" width="400" height="200"></canvas>
