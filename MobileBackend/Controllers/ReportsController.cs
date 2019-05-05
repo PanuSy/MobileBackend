@@ -56,17 +56,6 @@ namespace MobileBackend.Controllers
                 entities.Dispose();
             }
         }
-        public ActionResult HoursPerWorkAssignmentToExcelAsCsvTest()
-        {
-            StringBuilder csv = new StringBuilder();
-
-            csv.AppendLine("Jasper;10,5");
-            csv.AppendLine("Jesper;9,25");
-            csv.AppendLine("Joonatan;11,00");
-
-            byte[] buffer = Encoding.UTF8.GetBytes(csv.ToString());
-            return File(buffer, "text/csv", "Työtunnit.csv");
-        }
         public ActionResult HoursPerWorkAssignmentToExcelAsCsv()
         {
             StringBuilder csv = new StringBuilder();

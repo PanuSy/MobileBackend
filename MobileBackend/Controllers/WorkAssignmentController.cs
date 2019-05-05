@@ -60,6 +60,10 @@ namespace MobileBackend.Controllers
                         CreatedAt = DateTime.Now
                     };
                     entities.Timesheets.Add(NewEntry);
+
+                    assignment.InProgress = true;
+                    assignment.InProgressAt = DateTime.Now;
+                    assignment.LastModified = DateTime.Now;
                 }
                 else if (input.Operation == "Stop")
                 {
@@ -76,6 +80,11 @@ namespace MobileBackend.Controllers
                         existing.StopTime = DateTime.Now;
                         existing.WorkComplete = true;
                         existing.LastModified = DateTime.Now;
+
+                        assignment.InProgress = false;
+                        assignment.Completed = true;
+                        assignment.CompletedAt = DateTime.Now;
+                        assignment.LastModified = DateTime.Now;
                     }
                     else
                     {
