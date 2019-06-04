@@ -182,6 +182,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\MobileApp\MobileApp\MobileApp\Models\NewUserModel.cs">
+      <Link>Models\NewUserModel.cs</Link>
+    </Compile>
     <Compile Include="..\..\MobileApp\MobileApp\MobileApp\Models\WorkAssignmentOperationModel.cs">
       <Link>Models\WorkAssignmentOperationModel.cs</Link>
     </Compile>
@@ -220,12 +223,17 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ContractorController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TimesheetController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\WorkAssignmentController.cs" />
+    <Compile Include="Controllers\WorkController.cs" />
     <Compile Include="DataAccess\Contractors.cs">
       <DependentUpon>panconDatabase.tt</DependentUpon>
     </Compile>
@@ -262,6 +270,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\WorkModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
